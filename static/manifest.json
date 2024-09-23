@@ -3,11 +3,7 @@
     "short_name": "ZBF",
     "theme_color": "#FFFFFF",
     "background_color": "#FFFFFF",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "https://zachary-caudle.github.io/dnt/",
     "description": "Zachary's Barcode Formatting System",
-    "orientation": "any",
     "icons": [
         {
             "src": "https://zachary-caudle.github.io/dnt/logo.jpg",
