@@ -5,13 +5,20 @@
   <style>
     body {
       font-family: 'Roboto', sans-serif;
+      margin: 0; /* remove default margin */
+      height: 100vh; /* set the height to 100 viewport height */
+      display: flex; /* use flexbox to center horizontally */
+      justify-content: center; /* center horizontally */
+    }
+    #container {
+      display: table; /* use table display to center vertically */
+      height: 100vh; /* set the height to 100 viewport height */
     }
     #number-string {
-      text-align: center;
-      font-size: 56px;
       display: table-cell;
       vertical-align: middle;
-      height: 100vh; /* set the height to 100 viewport height */
+      text-align: center;
+      font-size: 36px;
     }
   </style>
 </head>
