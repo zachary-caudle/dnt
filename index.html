@@ -13,7 +13,7 @@
       const month = now.getMonth() + 1; // getMonth() returns 0-11, so add 1
       const day = now.getDate();
       const year = now.getFullYear().toString().substr(2, 2); // get last 2 digits of the year
-      const period = getPeriod(now); // implement getPeriod function based on your bell schedule
+      const period = getPeriod(now);
       const hour = now.getHours();
       const minute = now.getMinutes();
 
@@ -26,15 +26,41 @@
     }
 
     function getPeriod(date) {
-      // implement your logic to determine the period based on the bell schedule
-      // for example:
       const hours = date.getHours();
-      if (hours >= 8 && hours < 9) {
-        return '1'; // period 1
-      } else if (hours >= 9 && hours < 10) {
-        return '2'; // period 2
+      const minutes = date.getMinutes();
+
+      if (hours === 8 && minutes >= 20 && minutes < 60) {
+        return '1'; // 1st Period
+      } else if (hours === 9 && minutes < 15) {
+        return '1'; // 1st Period
+      } else if (hours === 9 && minutes >= 15 && minutes < 60) {
+        return '2'; // 2nd Period
+      } else if (hours === 10 && minutes < 47) {
+        return '2'; // 2nd Period
+      } else if (hours === 10 && minutes >= 47 && minutes < 60) {
+        return '3'; // 3rd Period
+      } else if (hours === 11 && minutes < 42) {
+        return '3'; // 3rd Period
+      } else if (hours === 11 && minutes >= 42 && minutes < 60) {
+        return '4'; // 4th Period
+      } else if (hours === 12 && minutes < 37) {
+        return '4'; // 4th Period
+      } else if (hours === 12 && minutes >= 37 && minutes < 60) {
+        return '5'; // 5th Period B
+      } else if (hours === 13 && minutes < 19) {
+        return '5'; // 5th Period B
+      } else if (hours === 13 && minutes >= 19 && minutes < 60) {
+        return '5'; // 5th Period A
+      } else if (hours === 14 && minutes < 14) {
+        return '5'; // 5th Period A
+      } else if (hours === 14 && minutes >= 14 && minutes < 60) {
+        return '6'; // 6th Period
+      } else if (hours === 15 && minutes < 9) {
+        return '6'; // 6th Period
+      } else if (hours === 15 && minutes >= 9 && minutes < 60) {
+        return '7'; // 7th Period
       } else {
-        return '3'; // period 3
+        return '0'; // default to 0 if not in a period
       }
     }
 
