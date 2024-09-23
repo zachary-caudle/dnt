@@ -1,13 +1,1 @@
-{
-    "name": "ZBF System",
-    "short_name": "ZBF",
-    "theme_color": "#FFFFFF",
-    "background_color": "#FFFFFF",
-    "description": "Zachary's Barcode Formatting System",
-    "icons": [
-        {
-            "src": "https://zachary-caudle.github.io/dnt/logo.jpg",
-            "sizes": "1024x1024"
-        }
-    ]
-}
+
