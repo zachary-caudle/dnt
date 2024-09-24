@@ -97,14 +97,23 @@
     const inputBox = document.getElementById('input-box');
     const numberStringElement = document.getElementById('number-string');
 
-    inputBox.addEventListener('input', () => {
-      const letters = inputBox.value.toUpperCase();
-      if (letters .length === 2) {
-        const numberString = generateNumberString();
-        const convertedNumbers = convertLettersToNumbers(letters);
-        numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
-      }
-    });
+    const urlParams = new URLSearchParams(window.location.search);
+    const lettersFromUrl = url Params.get('letters');
+
+    if (lettersFromUrl) {
+      const numberString = generateNumberString();
+      const convertedNumbers = convertLettersToNumbers(lettersFromUrl);
+      numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
+    } else {
+      inputBox.addEventListener('input', () => {
+        const letters = inputBox.value.toUpperCase();
+        if (letters.length === 2) {
+          const numberString = generateNumberString();
+          const convertedNumbers = convertLettersToNumbers(letters);
+          numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
+        }
+      });
+    }
   </script>
 </body>
 </html>
