@@ -138,6 +138,8 @@ function updateBarcode() {
     finalString = finalString.toLowerCase();
   }
 
+  inputBox.value = finalString;
+
   const imgUrl = `http://bwipjs-api.metafloor.com/?bcid=code128&text=${finalString}&includetext&scale=2`;
   const imgElement = document.getElementById('barcode-img');
   imgElement.src = imgUrl;
