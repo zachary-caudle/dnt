@@ -103,37 +103,45 @@
 
   numberStringElement.innerHTML = finalString;
 
-  inputBox.addEventListener('input', () => {
-    const letters = inputBox.value.toUpperCase();
-    if (letters.length === 2) {
-      const numberString = generateNumberString(formatFromUrl);
-      const convertedNumbers = convertLettersToNumbers(letters);
-      let finalString = `${convertedNumbers}${numberString}`;
+  let intervalId = null;
 
-      if (prefixFromUrl) {
-        finalString = `${prefixFromUrl}${finalString}`;
-      }
+inputBox.addEventListener('input', () => {
+  const letters = inputBox.value.toUpperCase();
+  if (letters.length === 2) {
+    intervalId = setInterval(updateBarcode, 500);
+  } else {
+    clearInterval(intervalId);
+  }
+});
 
-      if (suffixFromUrl) {
-        finalString = `${finalString}${suffixFromUrl}`;
-      }
+function updateBarcode() {
+  const letters = inputBox.value.toUpperCase();
+  const numberString = generateNumberString(formatFromUrl);
+  const convertedNumbers = convertLettersToNumbers(letters);
+  let finalString = `${convertedNumbers}${numberString}`;
 
-      if (separatorFromUrl) {
-        finalString = `${convertedNumbers}${separatorFromUrl}${numberString}`;
-      }
+  if (prefixFromUrl) {
+    finalString = `${prefixFromUrl}${finalString}`;
+  }
 
-      if (caseFromUrl === 'uppercase') {
-        finalString = finalString.toUpperCase();
-      } else if (caseFromUrl === 'lowercase') {
-        finalString = finalString.toLowerCase();
-      }
+  if (suffixFromUrl) {
+    finalString = `${finalString}${suffixFromUrl}`;
+  }
 
-      numberStringElement.innerHTML = finalString;
-    }
-    const imgUrl = `http://bwipjs-api.metafloor.com/?bcid=code128&text=${finalString}&includetext&scale=2`;
-    const imgElement = document.getElementById('barcode-img');
-    imgElement.src = imgUrl;
-  });
+  if (separatorFromUrl) {
+    finalString = `${convertedNumbers}${separatorFromUrl}${numberString}`;
+  }
+
+  if (caseFromUrl === 'uppercase') {
+    finalString = finalString.toUpperCase();
+  } else if (caseFromUrl === 'lowercase') {
+    finalString = finalString.toLowerCase();
+  }
+
+  const imgUrl = `http://bwipjs-api.metafloor.com/?bcid=code128&text=${finalString}&includetext&scale=2`;
+  const imgElement = document.getElementById('barcode-img');
+  imgElement.src = imgUrl;
+}
 </script>
   <img id="barcode-img" alt="Barcode">
 </body>
