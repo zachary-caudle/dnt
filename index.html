@@ -11,14 +11,21 @@
       display: flex; /* use flexbox to center horizontally and vertically */
       justify-content: center; /* center horizontally */
       align-items: center; /* center vertically */
+      flex-direction: column; /* stack elements vertically */
     }
     #number-string {
       text-align: center;
       font-size: 36px;
     }
+    #input-box {
+      font-size: 24px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
+  <input id="input-box" type="text" maxlength="2" placeholder="Enter 2 letters">
   <p id="number-string"></p>
   <script>
     function generateNumberString() {
@@ -77,8 +84,27 @@
       }
     }
 
-    const numberString = generateNumberString();
-    document.getElementById('number-string').innerHTML = `${numberString}`;
+    function convertLettersToNumbers(letters) {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let numbers = '';
+      for (let i = 0; i < letters.length; i++) {
+        const index = alphabet.indexOf(letters[i].toUpperCase());
+        numbers += padZero(index + 1);
+      }
+      return numbers;
+    }
+
+    const inputBox = document.getElementById('input-box');
+    const numberStringElement = document.getElementById('number-string');
+
+    inputBox.addEventListener('input', () => {
+      const letters = inputBox.value.toUpperCase();
+      if (letters .length === 2) {
+        const numberString = generateNumberString();
+        const convertedNumbers = convertLettersToNumbers(letters);
+        numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
+      }
+    });
   </script>
 </body>
 </html>
