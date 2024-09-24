@@ -10,7 +10,7 @@
       height: 100vh; /* set the height to 100 viewport height */
       display: flex; /* use flexbox to center horizontally and vertically */
       justify-content: center; /* center horizontally */
-      align-items: center; /* center vertically */ 
+      align-items: center; /* center vertically */
       flex-direction: column; /* stack elements vertically */
     }
     #number-string {
@@ -97,23 +97,24 @@
     const inputBox = document.getElementById('input-box');
     const numberStringElement = document.getElementById('number-string');
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const lettersFromUrl = url Params.get('letters');
+ const urlParams = new URLSearchParams(window.location.search);
+    const lettersFromUrl = urlParams.get('letters');
 
     if (lettersFromUrl) {
+      inputBox.value = lettersFromUrl;
       const numberString = generateNumberString();
       const convertedNumbers = convertLettersToNumbers(lettersFromUrl);
       numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
-    } else {
-      inputBox.addEventListener('input', () => {
-        const letters = inputBox.value.toUpperCase();
-        if (letters.length === 2) {
-          const numberString = generateNumberString();
-          const convertedNumbers = convertLettersToNumbers(letters);
-          numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
-        }
-      });
     }
+
+    inputBox.addEventListener('input', () => {
+      const letters = inputBox.value.toUpperCase();
+      if (letters.length === 2) {
+        const numberString = generateNumberString();
+        const convertedNumbers = convertLettersToNumbers(letters);
+        numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
+      }
+    });
   </script>
 </body>
 </html>
