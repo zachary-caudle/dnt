@@ -28,93 +28,53 @@
   <input id="input-box" type="text" maxlength="2" placeholder="Enter 2 letters">
   <p id="number-string"></p>
   <script>
-    function generateNumberString() {
-      const now = new Date();
-      const month = now.getMonth() + 1; // getMonth() returns 0-11, so add 1
-      const day = now.getDate();
-      const year = now.getFullYear().toString().substr(2, 2); // get last 2 digits of the year
-      const period = getPeriod(now);
-      const hour = now.getHours();
-      const minute = now.getMinutes();
+  function generateNumberString() {
+    const now = new Date();
+    const month = now.getMonth() + 1; // getMonth() returns 0-11, so add 1
+    const day = now.getDate();
+    const year = now.getFullYear().toString().substr(2, 2); // get last 2 digits of the year
+    const hour = now.getHours();
+    const minute = now.getMinutes();
 
-      const numberString = `${padZero(month)}${padZero(day)}${year}${period}${padZero(hour)}${padZero(minute)}`;
-      return numberString;
+    const numberString = `${padZero(month)}${padZero(day)}${year}${padZero(hour)}${padZero(minute)}`;
+    return numberString;
+  }
+
+  function padZero(num) {
+    return (num < 10 ? '0' : '') + num;
+  }
+
+  function convertLettersToNumbers(letters) {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let numbers = '';
+    for (let i = 0; i < letters.length; i++) {
+      const index = alphabet.indexOf(letters[i].toUpperCase());
+      numbers += padZero(index + 1);
     }
+    return numbers;
+  }
 
-    function padZero(num) {
-      return (num < 10 ? '0' : '') + num;
-    }
+  const inputBox = document.getElementById('input-box');
+  const numberStringElement = document.getElementById('number-string');
 
-    function getPeriod(date) {
-      const hours = date.getHours();
-      const minutes = date.getMinutes();
+  const urlParams = new URLSearchParams(window.location.search);
+  const lettersFromUrl = urlParams.get('letters');
 
-      if (hours === 8 && minutes >= 20 && minutes < 60) {
-        return '1'; // 1st Period
-      } else if (hours === 9 && minutes < 15) {
-        return '1'; // 1st Period
-      } else if (hours === 9 && minutes >= 15 && minutes < 60) {
-        return '2'; // 2nd Period
-      } else if (hours === 10 && minutes < 47) {
-        return '2'; // 2nd Period
-      } else if (hours === 10 && minutes >= 47 && minutes < 60) {
-        return '3'; // 3rd Period
-      } else if (hours === 11 && minutes < 42) {
-        return '3'; // 3rd Period
-      } else if (hours === 11 && minutes >= 42 && minutes < 60) {
-        return '4'; // 4th Period
-      } else if (hours === 12 && minutes < 37) {
-        return '4'; // 4th Period
-      } else if (hours === 12 && minutes >= 37 && minutes < 60) {
-        return '5'; // 5th Period B
-      } else if (hours === 13 && minutes < 19) {
-        return '5'; // 5th Period B
-      } else if (hours === 13 && minutes >= 19 && minutes < 60) {
-        return '5'; // 5th Period A
-      } else if (hours === 14 && minutes < 14) {
-        return '5'; // 5th Period A
-      } else if (hours === 14 && minutes >= 14 && minutes < 60) {
-        return '6'; // 6th Period
-      } else if (hours === 15 && minutes < 9) {
-        return '6'; // 6th Period
-      } else if (hours === 15 && minutes >= 9 && minutes < 60) {
-        return '7'; // 7th Period
-      } else {
-        return '0'; // default to 0 if not in a period
-      }
-    }
+  if (lettersFromUrl) {
+    inputBox.value = lettersFromUrl;
+    const numberString = generateNumberString();
+    const convertedNumbers = convertLettersToNumbers(lettersFromUrl);
+    numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
+  }
 
-    function convertLettersToNumbers(letters) {
-      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      let numbers = '';
-      for (let i = 0; i < letters.length; i++) {
-        const index = alphabet.indexOf(letters[i].toUpperCase());
-        numbers += padZero(index + 1);
-      }
-      return numbers;
-    }
-
-    const inputBox = document.getElementById('input-box');
-    const numberStringElement = document.getElementById('number-string');
-
- const urlParams = new URLSearchParams(window.location.search);
-    const lettersFromUrl = urlParams.get('letters');
-
-    if (lettersFromUrl) {
-      inputBox.value = lettersFromUrl;
+  inputBox.addEventListener('input', () => {
+    const letters = inputBox.value.toUpperCase();
+    if (letters.length === 2) {
       const numberString = generateNumberString();
-      const convertedNumbers = convertLettersToNumbers(lettersFromUrl);
+      const convertedNumbers = convertLettersToNumbers(letters);
       numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
     }
-
-    inputBox.addEventListener('input', () => {
-      const letters = inputBox.value.toUpperCase();
-      if (letters.length === 2) {
-        const numberString = generateNumberString();
-        const convertedNumbers = convertLettersToNumbers(letters);
-        numberStringElement.innerHTML = `${convertedNumbers}${numberString}`;
-      }
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
