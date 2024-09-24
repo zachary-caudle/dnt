@@ -23,6 +23,7 @@ For example, if your name is John Smith, it's January 26th, 2017, at 5:14 PM, th
 # URL Parameters
 
 The URL parameters are:
+
 letters (The letters that go into the textbox) https://zachary-caudle.github.io/dnt?letters=
 
 separator (What separates the letters from the rest of the string) https://zachary-caudle.github.io/dnt?separator=
