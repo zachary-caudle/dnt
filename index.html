@@ -131,6 +131,49 @@
       numberStringElement.innerHTML = finalString;
     }
   });
+    // ... (rest of the code remains the same)
+
+inputBox.addEventListener('input', () => {
+  const letters = inputBox.value.toUpperCase();
+  if (letters.length === 2) {
+    const numberString = generateNumberString(formatFromUrl);
+    const convertedNumbers = convertLettersToNumbers(letters);
+    let finalString = `${convertedNumbers}${numberString}`;
+
+    if (prefixFromUrl) {
+      finalString = `${prefixFromUrl}${finalString}`;
+    }
+
+    if (suffixFromUrl) {
+      finalString = `${finalString}${suffixFromUrl}`;
+    }
+
+    if (separatorFromUrl) {
+      finalString = `${convertedNumbers}${separatorFromUrl}${numberString}`;
+    }
+
+    if (caseFromUrl === 'uppercase') {
+      finalString = finalString.toUpperCase();
+    } else if (caseFromUrl === 'lowercase') {
+      finalString = finalString.toLowerCase();
+    }
+
+    // Send request to BWIPJS API
+    const apiUrl = `http://bwipjs-api.metafloor.com/?bcid=code128&text=${finalString}&includetext&scale=2`;
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', apiUrl, true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        const barcodeImage = xhr.responseText;
+        // Display the barcode image on the website
+        const barcodeElement = document.getElementById('barcode');
+        barcodeElement.innerHTML = `<img src="${barcodeImage}" alt="Barcode">`;
+      }
+    };
+    xhr.send();
+  }
+});
 </script>
+  <div id="barcode"></div>
 </body>
 </html>
