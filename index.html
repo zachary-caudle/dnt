@@ -61,11 +61,16 @@
     const numberStringElement = document.getElementById('number-string');
 
     const urlParams = new URLSearchParams(window.location.search);
+    const lettersFromUrl = urlParams.get('letters');
     const formatFromUrl = urlParams.get('format');
     const prefixFromUrl = urlParams.get('prefix');
     const suffixFromUrl = urlParams.get('suffix');
     const separatorFromUrl = urlParams.get('separator');
     const caseFromUrl = urlParams.get('case');
+
+    if (lettersFromUrl) {
+      inputBox.value = lettersFromUrl; // Set the input box value from the URL
+    }
 
     let intervalId = null;
 
