@@ -28,116 +28,85 @@
   <input id="input-box" type="text" maxlength="2" placeholder="Enter 2 letters">
   <p id="number-string"></p>
   <script>
-  function generateNumberString(format = 'MMddyyHHmm') {
-    const now = new Date();
-    let numberString = '';
+    function generateNumberString(format = 'MMddyyHHmm') {
+      const now = new Date();
+      let numberString = '';
 
-    switch (format) {
-      case 'MMddyyHHmm':
-        numberString = `${padZero(now.getMonth() + 1)}${padZero(now.getDate())}${now.getFullYear().toString().substr(2, 2)}${padZero(now.getHours())}${padZero(now.getMinutes())}`;
-        break;
-      // Add more formats as needed
-      default:
-        numberString = `${padZero(now.getMonth() + 1)}${padZero(now.getDate())}${now.getFullYear().toString().substr(2, 2)}${padZero(now.getHours())}${padZero(now.getMinutes())}`;
+      switch (format) {
+        case 'MMddyyHHmm':
+          numberString = `${padZero(now.getMonth() + 1)}${padZero(now.getDate())}${now.getFullYear().toString().substr(2, 2)}${padZero(now.getHours())}${padZero(now.getMinutes())}`;
+          break;
+        default:
+          numberString = `${padZero(now.getMonth() + 1)}${padZero(now.getDate())}${now.getFullYear().toString().substr(2, 2)}${padZero(now.getHours())}${padZero(now.getMinutes())}`;
+      }
+
+      return numberString;
     }
 
-    return numberString;
-  }
-
-  function padZero(num) {
-    return (num < 10 ? '0' : '') + num;
-  }
-
-  function convertLettersToNumbers(letters) {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let numbers = '';
-    for (let i = 0; i < letters.length; i++) {
-      const index = alphabet.indexOf(letters[i].toUpperCase());
-      numbers += padZero(index + 1);
+    function padZero(num) {
+      return (num < 10 ? '0' : '') + num;
     }
-    return numbers;
-  }
 
-  const inputBox = document.getElementById('input-box');
-  const numberStringElement = document.getElementById('number-string');
+    function convertLettersToNumbers(letters) {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let numbers = '';
+      for (let i = 0; i < letters.length; i++) {
+        const index = alphabet.indexOf(letters[i].toUpperCase());
+        numbers += padZero(index + 1);
+      }
+      return numbers;
+    }
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const lettersFromUrl = urlParams.get('letters');
-  const formatFromUrl = urlParams.get('format');
-  const timezoneFromUrl = urlParams.get('timezone');
-  const prefixFromUrl = urlParams.get('prefix');
-  const suffixFromUrl = urlParams.get('suffix');
-  const separatorFromUrl = urlParams.get('separator');
-  const caseFromUrl = urlParams.get('case');
+    const inputBox = document.getElementById('input-box');
+    const numberStringElement = document.getElementById('number-string');
 
-  if (lettersFromUrl) {
-    inputBox.value = lettersFromUrl;
-  }
+    const urlParams = new URLSearchParams(window.location.search);
+    const formatFromUrl = urlParams.get('format');
+    const prefixFromUrl = urlParams.get('prefix');
+    const suffixFromUrl = urlParams.get('suffix');
+    const separatorFromUrl = urlParams.get('separator');
+    const caseFromUrl = urlParams.get('case');
 
-  if (timezoneFromUrl) {
-    // Set the timezone for the Date object (not implemented in this example)
-  }
+    let intervalId = null;
 
-  const numberString = generateNumberString(formatFromUrl);
-  const convertedNumbers = convertLettersToNumbers(lettersFromUrl || inputBox.value.toUpperCase());
+    inputBox.addEventListener('input', () => {
+      const letters = inputBox.value.toUpperCase();
+      if (letters.length === 2) {
+        intervalId = setInterval(updateBarcode, 500);
+      } else {
+        clearInterval(intervalId);
+      }
+    });
 
-  let finalString = `${convertedNumbers}${numberString}`;
+    function updateBarcode() {
+      const letters = inputBox.value.toUpperCase();
+      const numberString = generateNumberString(formatFromUrl);
+      const convertedNumbers = convertLettersToNumbers(letters);
+      let finalString = `${convertedNumbers}${numberString}`;
 
-  if (prefixFromUrl) {
-    finalString = `${prefixFromUrl}${finalString}`;
-  }
+      if (prefixFromUrl) {
+        finalString = `${prefixFromUrl}${finalString}`;
+      }
 
-  if (suffixFromUrl) {
-    finalString = `${finalString}${suffixFromUrl}`;
-  }
+      if (suffixFromUrl) {
+        finalString = `${finalString}${suffixFromUrl}`;
+      }
 
-  if (separatorFromUrl) {
-    finalString = `${convertedNumbers}${separatorFromUrl}${numberString}`;
-  }
+      if (separatorFromUrl) {
+        finalString = `${convertedNumbers}${separatorFromUrl}${numberString}`;
+      }
 
-  if (caseFromUrl === 'uppercase') {
-    finalString = finalString.toUpperCase();
-  } else if (caseFromUrl === 'lowercase') {
-    finalString = finalString.toLowerCase();
-  }
+      if (caseFromUrl === 'uppercase') {
+        finalString = finalString.toUpperCase();
+      } else if (caseFromUrl === 'lowercase') {
+        finalString = finalString.toLowerCase();
+      }
 
-  numberStringElement.innerHTML = finalString;
+      numberStringElement.innerHTML = finalString; // Update the element with the new finalString
+    }
 
-  let intervalId = null;
-
-inputBox.addEventListener('input', () => {
-  const letters = inputBox.value.toUpperCase();
-  if (letters.length === 2) {
-    intervalId = setInterval(updateBarcode, 500);
-  } else {
-    clearInterval(intervalId);
-  }
-});
-
-function updateBarcode() {
-  const letters = inputBox.value.toUpperCase();
-  const numberString = generateNumberString(formatFromUrl);
-  const convertedNumbers = convertLettersToNumbers(letters);
-  let finalString = `${convertedNumbers}${numberString}`;
-
-  if (prefixFromUrl) {
-    finalString = `${prefixFromUrl}${finalString}`;
-  }
-
-  if (suffixFromUrl) {
-    finalString = `${finalString}${suffixFromUrl}`;
-  }
-
-  if (separatorFromUrl) {
-    finalString = `${convertedNumbers}${separatorFromUrl}${numberString}`;
-  }
-
-  if (caseFromUrl === 'uppercase') {
-    finalString = finalString.toUpperCase();
-  } else if (caseFromUrl === 'lowercase') {
-    finalString = finalString.toLowerCase();
-  }
-}
-</script>
+    // Initial update
+    updateBarcode();
+  </script>
 </body>
 </html>
