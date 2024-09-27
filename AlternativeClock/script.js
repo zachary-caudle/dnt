@@ -2,12 +2,12 @@ const timeDisplay = document.getElementById('time-display');
 
 function getDateTime() {
   const now = new Date();
-  const mm = now.getMonth() + 1; // getMonth() returns 0-11, so add 1
-  const dd = now.getDate();
+  const mm = (now.getMonth() + 1).toString().padStart(2, '0'); // getMonth() returns 0-11, so add 1
+  const dd = now.getDate().toString().padStart(2, '0');
   const yy = now.getFullYear().toString().substr(2, 2); // get last 2 digits of year
-  const hh = now.getHours();
-  const mn = now.getMinutes();
-  const ss = now.getSeconds();
+  const hh = now.getHours().toString().padStart(2, '0');
+  const mn = now.getMinutes().toString().padStart(2, '0');
+  const ss = now.getSeconds().toString().padStart(2, '0');
 
   let dateTimeString = `${mm}${dd}${yy}${hh}${mn}${ss}`;
 
