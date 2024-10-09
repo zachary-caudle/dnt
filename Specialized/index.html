@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="button"] {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="button"]:hover {
+            background-color: #3e8e41;
+        }
+
+        .output-area {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        #generated-code {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Custom Code Generator</h1>
+        <form>
+            <label for="first-initial">First Initial:</label>
+            <input type="text" id="first-initial" maxlength="1" required><br><br>
+            <label for="last-initial">Last Initial:</label>
+            <input type="text" id="last-initial" maxlength="1" required><br><br>
+            <button id="generate-btn">Generate Code</button>
+        </form>
+        <div class="output-area">
+            <p id="generated-code"></p>
+        </div>
+    </div>
+
+    <script>
+        const firstInitialInput = document.getElementById('first-initial');
+        const lastInitialInput = document.getElementById('last-initial');
+        const generateBtn = document.getElementById('generate-btn');
+        const outputArea = document.getElementById('generated-code');
+
+        generateBtn.addEventListener('click', generateCode);
+
+        function generateCode() {
+            const firstInitial = firstInitialInput.value.toUpperCase();
+            const lastInitial = lastInitialInput.value.toUpperCase();
+
+            // Generate random month, day, year, hour, and minute
+            const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+            const day = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0');
+            const year = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+            const hour = String(Math.floor(Math.random() * 24)).padStart(2, '0');
+            const minute = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+
+            // Convert initials to numbers (A=03, B=04, ..., Z=02)
+            const firstInitialNum = String.fromCharCode(firstInitial.charCodeAt(0) + 2);
+            const lastInitialNum = String.fromCharCode(lastInitial.charCodeAt(0) + 2);
+
+            // Randomly insert a three-digit number
+            const randomNumber = Math.floor(Math.random() * 900) + 100;
+
+            // Shuffle the date format to DdMMyy
+            const shuffledDate = `${day}${month}${year}`;
+
+            // Append a random character at the end
+            const randomChar = String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+
+            const generatedCode = `${firstInitialNum}${randomNumber}${lastInitialNum}${shuffledDate}${hour}${minute}${randomChar}`;
+            outputArea.textContent = generatedCode;
+        }
+    </script>
+</body>
+</html>
